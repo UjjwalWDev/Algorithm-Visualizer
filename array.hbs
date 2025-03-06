@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Visualization</title>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
+</head>
+<body action="/array" method="post">
+    <header>
+        <h1 class="logo">Algorithm Visualizer</h1>
+        <nav class="navigation">
+            <a id="Arr-btn">About Array</a>
+            <a  id="code">Code</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Array Sorting Visualization</h1>
+        <div id="array-container"></div>
+        <p id="instruction-text"></p>
+        <button id="sort-button">Sort Array</button>
+        <button id="reverse-button">Reverse Array</button>
+        <button id="input-button">Give Input</button>
+    </div>
+    <div class="about-arr">
+        <span id="icon-close-about"><ion-icon name="close-circle-outline"></ion-icon></span>
+            <h1>Basic Information of an Array</h1>
+            <p1>An array is a data structure used to store multiple elements in a single variable. Arrays are often used in algorithms because they allow for efficient access to elements based on their index. The elements in an array are typically stored in contiguous memory locations, and each element can be accessed directly using its index.</p1>
+            <h2>Key Features of an Array:</h2>
+            <p2>1. Fixed Size: Arrays have a fixed size, meaning that once an array is declared, the number of elements it can hold is set and cannot change.<br>
+            <br>
+            2. Contiguous Memory Allocation: Array elements are stored in contiguous blocks of memory, which allows for quick access to elements via their index.<br>
+            <br>
+            3.Homogeneous Elements: Arrays typically store elements of the same data type (e.g., all integers, all floats).<br>
+            <br>
+            4. Random Access: Because arrays are indexed, accessing any element by its index is done in constant time, O(1), which makes random access very efficient.<br>
+            </p2>
+        </div>
+
+       <div class="arr-code">
+         <span id="icon-close-code" ><ion-icon name="close-circle-outline"></ion-icon></span>
+        <h1>Code in 'C' for Declaring,Inserting,Searching of an Array Elements:</h1>
+    <p1><pre><code>
+        #include &lt;stdio.h&gt;
+
+        int main() {
+            // Declare and initialize an array of size 5
+            int arr[5] = {10, 20, 30, 40, 50}; 
+
+            // Display the array elements
+            printf("Array elements:\n");
+            for (int i = 0; i < 5; i++) {
+                printf("%d ", arr[i]);
+            }
+            printf("\n");
+
+            // Accessing an element by index
+            int index = 2;
+            printf("Element at index %d: %d\n", index, arr[index]);
+
+            // Insertion (insert 25 at index 2, shifting 
+            elements to the right)
+            int newElement = 25;
+            for (int i = 4; i > index; i--) {
+                arr[i] = arr[i - 1];  // Shift elements
+            }
+            arr[index] = newElement;  // Insert new element
+
+            // Display array after insertion
+            printf("Array after insertion at index %d:\n", index);
+            for (int i = 0; i < 5; i++) {
+                printf("%d ", arr[i]);
+            }
+            printf("\n");
+
+            // Searching for an element (linear search)
+            int searchElement = 40;
+            int found = 0;
+            for (int i = 0; i < 5; i++) {
+                if (arr[i] == searchElement) {
+                    printf("Element %d found at index %d\n",
+                     searchElement, i);
+                    found = 1;
+                    break;
+                }
+            }
+            if (!found) {
+                printf("Element %d not found in the array\n", 
+                searchElement);
+            }
+
+            return 0;
+        }
+    </code></pre></p1>
+</div>
+</body>
+</html>
+
+
+
+
+<script>
+    const array = [50, 20, 40, 10, 30]; 
+const container = document.getElementById('array-container');
+const instructionText = document.getElementById('instruction-text');
+const sortButton = document.getElementById('sort-button');
+const reverseButton = document.getElementById('reverse-button');
+const inputButton = document.getElementById('input-button');
+
+
+function visualizeArray(arr) {
+    container.innerHTML = ''; 
+
+    arr.forEach((value, index) => {
+        const arrayItem = document.createElement('div');
+        arrayItem.classList.add('array-item');
+
+        const arrayBox = document.createElement('div');
+        arrayBox.classList.add('array-box');
+        arrayBox.textContent = value;
+
+        const indexLabel = document.createElement('div');
+        indexLabel.classList.add('index');
+        indexLabel.textContent = index;
+
+        arrayItem.appendChild(arrayBox);
+        arrayItem.appendChild(indexLabel);
+        container.appendChild(arrayItem);
+    });
+}
+
+
+function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+
+async function ArraySortVisualized(arr) {
+    const bars = document.querySelectorAll('.array-box');
+    let len = arr.length;
+    let sorted = false;
+
+    for (let i = 0; i < len - 1 && !sorted; i++) {
+        sorted = true;
+        for (let j = 0; j < len - i - 1; j++) {
+            bars[j].classList.add('highlight');
+            bars[j + 1].classList.add('highlight');
+
+            instructionText.textContent = `Comparing elements at index ${j} and ${j + 1}: ${arr[j]} and ${arr[j + 1]}`;
+            await delay(1500);
+
+            if (arr[j] > arr[j + 1]) {
+                sorted = false;
+
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+
+               
+                bars[j].textContent = arr[j];
+                bars[j + 1].textContent = arr[j + 1];
+                bars[j].classList.add('swap');
+                bars[j + 1].classList.add('swap');
+
+                instructionText.textContent = `Swapping elements at index ${j} and ${j + 1}: ${arr[j]} and ${arr[j + 1]}`;
+                await delay(1500); 
+            }
+
+       
+            bars[j].classList.remove('highlight', 'swap');
+            bars[j + 1].classList.remove('highlight', 'swap');
+        }
+    }
+
+    instructionText.textContent = "Array is fully sorted!";
+}
+
+async function reverseArrayVisualized(arr) {
+    const bars = document.querySelectorAll('.array-box');
+    let len = arr.length;
+
+    for (let i = 0; i < len / 2; i++) {
+        bars[i].classList.add('highlight');
+        bars[len - 1 - i].classList.add('highlight');
+
+        instructionText.textContent = `Swapping elements at index ${i} and ${len - 1 - i}: ${arr[i]} and ${arr[len - 1 - i]}`;
+        await delay(1000); 
+
+     
+        [arr[i], arr[len - 1 - i]] = [arr[len - 1 - i], arr[i]];
+
+        bars[i].textContent = arr[i];
+        bars[len - 1 - i].textContent = arr[len - 1 - i];
+        bars[i].classList.add('swap');
+        bars[len - 1 - i].classList.add('swap');
+
+        instructionText.textContent = `Elements swapped: ${arr[i]} and ${arr[len - 1 - i]}`;
+        await delay(1000); 
+
+
+        bars[i].classList.remove('highlight', 'swap');
+        bars[len - 1 - i].classList.remove('highlight', 'swap');
+    }
+
+    instructionText.textContent = "Array is fully reversed!";
+}
+
+
+inputButton.addEventListener('click', () => {
+    const userInput = prompt("Please enter an array of numbers separated by commas:", "50, 20, 40, 10, 30");
+    if (userInput) {
+        const newArray = userInput.split(',').map(Number);
+        if (newArray.some(isNaN)) {
+            alert("Invalid input. Please enter valid numbers.");
+        } else {
+            visualizeArray(newArray); 
+            array.length = 0;
+            array.push(...newArray);
+        }
+    }
+});
+
+
+window.onload = () => {
+    visualizeArray(array);
+
+    sortButton.addEventListener('click', async () => {
+        sortButton.disabled = true;
+        await ArraySortVisualized(array);
+        sortButton.disabled = false;
+    });
+
+
+    reverseButton.addEventListener('click', async () => {
+        reverseButton.disabled = true;
+        await reverseArrayVisualized(array);
+        reverseButton.disabled = false;
+    });
+};
+
+  
+    const aboutArrayBtn = document.getElementById('Arr-btn');
+    const aboutArrSection = document.querySelector('.about-arr');
+    const otherContent = document.querySelector('.container');
+    const closeButton = document.getElementById('icon-close-about');
+    const arrcode=document.querySelector('.arr-code')
+    const codebtn=document.getElementById('code')
+    const codeCloseButton = document.getElementById('icon-close-code');
+
+
+    aboutArrayBtn.addEventListener('click', () => {
+        aboutArrSection.style.display = 'block'; 
+        otherContent.style.display = 'none';  
+    });
+
+   
+    closeButton.addEventListener('click', () => {
+        aboutArrSection.style.display = 'none';  
+        otherContent.style.display = 'block';   
+    });
+     
+    codebtn.addEventListener('click', () => {
+        arrcode.style.display = 'block'; 
+        otherContent.style.display = 'none';  
+    });
+
+
+    codeCloseButton.addEventListener('click', () => {
+        arrcode.style.display = 'none';  
+        otherContent.style.display = 'block';   
+    });
+</script>
+
+
+
+
+<style>
+    body {
+   font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f9;
+}
+
+.container {
+    text-align: center;
+    border: 5px solid red;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 30px red;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color:red;
+}
+
+#array-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.array-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 5px;
+}
+
+.array-box {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.array-box.highlight {
+    background-color: #FFD700; 
+}
+
+.array-box.swap {
+    background-color: #FF6347; 
+}
+
+.index {
+    color: red;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color:black;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin: 5px; 
+    border: 2px solid red;
+}
+
+button:hover {
+    background-color:red;
+    border: 2px solid black;
+}
+
+#instruction-text {
+    font-size: 18px;
+    color:black;
+    margin-top: 10px;
+}
+ header{
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding-left: 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 99;
+        background-color:red;
+    }
+    .logo{
+        font-size: 1.5rem;
+        color: white;
+        user-select: none;
+    
+    }
+    .navigation a{
+        position: relative;
+        font-size: 1.1em;
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        margin-left: 40px;
+        cursor: pointer;
+      
+    }
+    #code{
+        margin-right: 70px;
+    }
+    .navigation a::after{
+        content: '';
+        position: absolute;
+        bottom: -6px;
+        width: 100%;
+        height: 3px;
+        background:white;
+        border-radius: 5px;
+        left: 0;
+        transform: scaleX(0);
+        transition: transform .5s;
+        transform-origin: right;
+    }
+    .navigation a:hover::after{
+        transform-origin: left;
+        transform: scaleX(1);
+    }
+#input-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%; 
+    margin-left: auto;
+    margin-right: auto;
+    background-color: red;
+    border: 2px solid black;
+    padding: 15px 20px;
+    font-size: 1.2em;
+    transition: background-color 0.3s ease;
+}
+
+#input-button:hover {
+    background-color: white;
+    color: red;
+    border: 2px solid red;
+}
+
+@media (max-width: 768px) {
+    #input-button {
+        width: 80%;
+        font-size: 1em; 
+        padding: 10px 15px; 
+    }
+}
+
+@media (max-width: 480px) {
+    #input-button {
+        width: 90%;
+        font-size: 0.9em; 
+        padding: 8px 12px; 
+    }
+}
+
+.about-arr {
+       font-family: Roboto,arial,sans-serif;
+    display: none;
+    background-color: whitesmoke;    
+    height: 60vh;
+    width: 55vw;
+    max-width: 90%;
+    border: 5px solid red;
+    border-radius: 8px;
+    transition: max-height 0.5s ease-out;
+    overflow: hidden;
+    box-shadow: 0 0 30px red;
+    position: relative; 
+    text-align: center;
+}
+
+.about-arr h1,
+.about-arr h2 {
+    color: red;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.about-arr p1{
+    font-size: 1.1rem;
+}
+.about-arr p2 {
+    
+    text-align: center;
+}
+
+#icon-close-about {
+    color: white;
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+    width: 35px; 
+    height: 35px;
+    background: red;
+    font-size: 2em; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%; 
+    cursor: pointer;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    #icon-close-about{
+        top: 5px;   
+        right: 5px;
+        width: 30px; 
+        height: 30px;
+        font-size: 1.5em; 
+    }
+}
+
+    #icon-close-about{
+        top: -10px; 
+        right: -10px;
+        width: 35px;
+        height: 35px;
+        font-size: 2em;
+    }
+
+.arr-code{
+   display: none;
+    margin-top: 40px;
+    background-color: black;    
+    height: 85vh;
+    width:35vw;
+    max-width: 90%;
+    border: 5px solid white;
+    border-radius: 5px;
+    transition: max-height 0.5s ease-out;
+    overflow: hidden;
+    box-shadow: 0 0 30px black;
+    position: relative; 
+    overflow-y: auto;
+
+}
+.arr-code p1{
+    color: white;
+    padding-left: -10px;
+}
+.arr-code h1{
+    color: white;
+    font-size: 1rem;
+    padding-top: 15px;
+    text-align: center;
+    border-bottom: 2px solid white;
+}
+.arr-code #icon-close-code{
+    background: black;
+}
+#icon-close-code{
+    color: white;
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+    width: 35px; 
+    height: 35px;
+    background: black;
+    font-size: 2em; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%; 
+    cursor: pointer;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    #icon-close-code {
+        top: 5px;   
+        right: 5px;
+        width: 30px; 
+        height: 30px;
+        font-size: 1.5em; 
+    }
+}
+
+    #icon-close-code{
+        top: -10px; 
+        right: -10px;
+        width: 35px;
+        height: 35px;
+        font-size: 2em;
+    }
+</style>

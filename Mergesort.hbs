@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Visualization</title>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
+</head>
+<body action="/MergeSort" method="post">
+    <header>
+        <h2 class="logo">Algorithm Visualizer</h2>
+        <nav class="navigation">
+            <a id="merge-btn">About MergeSort</a>
+            <a  id="code">Code</a>
+        </nav>
+    </header>
+
+<div class="visualization-container">
+    <div class="title">Merge Sort Visualization</div>
+    <div id="array-container"></div>
+    <div class="instructions" id="instructions">Click "Start Sorting" to begin.</div>
+    <div class="button-container">
+        <button onclick="giveInput()">Give Input</button>
+        <button onclick="startSorting()">Start Sorting</button>
+    </div>
+</div>
+<div class="about-merge">
+    <span id="icon-close-about"><ion-icon name="close-circle-outline"></ion-icon></span>
+        <h3>Basic Information of Merge Sort</h3>
+        <p1>Merge Sort is a divide-and-conquer algorithm that splits an array into smaller subarrays, sorts them, and then merges them back together in sorted order. It’s efficient and stable, making it a popular choice for sorting large datasets.</p1>
+
+        <h2>How Merge Sort Works:</h2>
+        <p2>1.Divide: Recursively split the array in half until each subarray contains only one element (since a single element is inherently sorted).<br>
+        <br>
+        2.Conquer (Sort and Merge): Merge the sorted subarrays back together by comparing elements from each half, resulting in a sorted array.<br>
+        <br>
+       <h2>Time and Space Complexity:</h2>
+        <br>
+        1. Time Complexity: O(n log n) for all cases (best, average, worst)<br>
+        <br>
+        2. Space Complexity: O(n) because it requires additional space for the merged subarrays.  
+        </p2>
+    </div>
+    <div class="merge-code">
+        <span id="icon-close-code" ><ion-icon name="close-circle-outline"></ion-icon></span>
+       <h1>Algorithm of Merge Sort:</h1>
+   <p1><pre><code>
+    function mergeSort(arr):
+    if length of arr <= 1:
+        return arr  // Base case: array is already sorted
+    
+    mid = length of arr / 2
+    left = mergeSort(arr[0:mid])    // Sort the left half
+    right = mergeSort(arr[mid:end]) // Sort the right half
+    
+    return merge(left, right)       // Merge the sorted halves
+
+    function merge(left, right):
+    result = []
+    i, j = 0, 0
+    
+    // Merge elements from left and right arrays in sorted order
+    while i < length of left and j < length of right:
+        if left[i] <= right[j]:
+            append left[i] to result
+            i += 1
+        else:
+            append right[j] to result
+            j += 1
+    
+    // Add any remaining elements from left array (if any)
+    while i < length of left:
+        append left[i] to result
+        i += 1
+    
+    // Add any remaining elements from right array (if any)
+    while j < length of right:
+        append right[j] to result
+        j += 1
+    
+    return result
+    turn 0;
+    }
+
+   </code></pre></p1>
+</div>
+<script>
+    let array = [3, 7, 8, 5, 4, 2, 6, 1];
+    const arrayContainer = document.getElementById('array-container');
+    const instructions = document.getElementById('instructions');
+    let stepCount = 0;
+
+    function giveInput() {
+        const userInput = prompt("Enter the array elements separated by commas:");
+        if (userInput) {
+            array = userInput.split(',').map(Number);
+            arrayContainer.innerHTML = '';
+            displayStep(array);
+            instructions.innerText = "Click 'Start Sorting' to begin.";
+        }
+    }
+
+    function displayStep(arr, highlightIndices = []) {
+        const stepDiv = document.createElement('div');
+        stepDiv.className = 'array-display';
+
+        arr.forEach((num, index) => {
+            const box = document.createElement('div');
+            box.classList.add('array-box');
+            box.textContent = num;
+            if (highlightIndices.includes(index)) {
+                box.style.backgroundColor = '#ffdd57';
+                box.style.color = '#282c34';
+            }
+            stepDiv.appendChild(box);
+        });
+
+        arrayContainer.appendChild(stepDiv);
+    }
+
+    function displayMergeStep(left, right) {
+        const mergeDiv = document.createElement('div');
+        mergeDiv.className = 'horizontal-merge';
+
+        left.forEach(num => {
+            const box = document.createElement('div');
+            box.classList.add('merge-box');
+            box.textContent = num;
+            mergeDiv.appendChild(box);
+        });
+
+        const plusSign = document.createElement('div');
+        plusSign.textContent = '+';
+        mergeDiv.appendChild(plusSign);
+
+        right.forEach(num => {
+            const box = document.createElement('div');
+            box.classList.add('merge-box');
+            box.textContent = num;
+            mergeDiv.appendChild(box);
+        });
+
+        const equalsSign = document.createElement('div');
+        equalsSign.textContent = '=';
+        mergeDiv.appendChild(equalsSign);
+
+        arrayContainer.appendChild(mergeDiv);
+    }
+
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function mergeSort(arr) {
+        if (arr.length <= 1) return arr;
+
+        const mid = Math.floor(arr.length / 2);
+        const left = await mergeSort(arr.slice(0, mid));
+        const right = await mergeSort(arr.slice(mid));
+
+        instructions.innerText = `Step ${++stepCount}: Merging [${left}] and [${right}]`;
+        displayMergeStep(left, right);
+        await delay(1000); 
+
+        return await merge(left, right);
+    }
+
+    async function merge(left, right) {
+        let sortedArray = [];
+        let i = 0, j = 0;
+
+        while (i < left.length && j < right.length) {
+            if (left[i] < right[j]) {
+                sortedArray.push(left[i++]);
+            } else {
+                sortedArray.push(right[j++]);
+            }
+        }
+
+        sortedArray = [...sortedArray, ...left.slice(i), ...right.slice(j)];
+        
+        displayStep(sortedArray, sortedArray.map((_, idx) => idx));
+        await delay(1000); 
+        return sortedArray;
+    }
+
+    function startSorting() {
+        arrayContainer.innerHTML = '';
+        instructions.innerText = "Starting Merge Sort...";
+        displayStep(array); 
+
+        const firstPart = array.slice(0, 4); 
+        const secondPart = array.slice(4); 
+
+        displayMergeStep(firstPart, secondPart); 
+        setTimeout(async () => {
+            await mergeSort(array);
+            instructions.innerText = "Sorting Complete!";
+        }, 2000); 
+    }
+
+    const mergebtn = document.getElementById('merge-btn')
+    const abtmerge=document.querySelector('.about-merge')
+    const otherContent = document.querySelector('.visualization-container');
+    const closeButton = document.getElementById('icon-close-about');
+    const mergecode=document.querySelector('.merge-code')
+    const codebtn=document.getElementById('code')
+    const codeCloseButton = document.getElementById('icon-close-code');
+
+
+    mergebtn.addEventListener('click', () => {
+        abtmerge.style.display = 'block'; 
+        otherContent.style.display = 'none';  
+    });
+
+    closeButton.addEventListener('click', () => {
+        abtmerge.style.display = 'none';  
+        otherContent.style.display = 'block';   
+    });
+    
+    codebtn.addEventListener('click', () => {
+        mergecode.style.display = 'block'; 
+        otherContent.style.display = 'none';  
+    });
+
+
+    codeCloseButton.addEventListener('click', () => {
+        mergecode.style.display = 'none';  
+        otherContent.style.display = 'block';   
+    });
+     
+</script>
+
+</body>
+<style>
+    body {
+        font-family: 'Courier New', Courier, monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #121212;
+        color: white;
+        height: 100vh;
+        margin: 0;
+    }
+
+    header{
+    height: 60px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding-left: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+    background-color:black;
+   
+}
+.logo{
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    user-select: none;
+
+}
+.navigation a{
+    position: relative;
+    font-size: 1.1em;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 40px;
+    cursor: pointer;
+  
+}
+#code{
+    margin-right: 70px;
+}
+.navigation a::after{
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background:white;
+    border-radius: 5px;
+    left: 0;
+    transform: scaleX(0);
+    transition: transform .5s;
+    transform-origin: right;
+}
+.navigation a:hover::after{
+    transform-origin: left;
+    transform: scaleX(1);
+}
+
+    .visualization-container {
+        background-color: #1e1e1e;
+        border-radius: 10px;
+        padding: 20px;
+        width: 600px;
+        max-height: 600px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        overflow-y: scroll;
+        scrollbar-width: none;
+    }
+
+    .title {
+        font-size: 1.8em;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .array-display {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        font-size: 1.2em;
+    }
+
+    .array-box {
+        background-color: #282c34;
+        border: 1px solid #61dafb;
+        border-radius: 5px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #61dafb;
+    }
+
+    .button-container {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 1em;
+        border-radius: 5px;
+        background-color: #61dafb;
+        color: #121212;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #21a1f1;
+    }
+
+    .instructions {
+        font-size: 1em;
+        color: #bbb;
+        margin-top: 10px;
+    }
+
+    .horizontal-merge {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .merge-box {
+        background-color: #ffdd57;
+        border: 1px solid #61dafb;
+        border-radius: 5px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #282c34;
+        margin: 0 5px;
+    }
+
+    .about-merge{
+    font-family: Roboto,arial,sans-serif;
+    display: none;
+    background-color: #1e1e1e;    
+    height: 62vh;
+    width: 55vw;
+    max-width: 90%;
+    border: 5px solid rgb(97, 94, 94);
+    border-radius: 8px;
+    transition: max-height 0.5s ease-out;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative; 
+    text-align: center;
+}
+
+.about-merge h3,
+.about-merge h2 {
+    color: rgb(248, 19, 19);
+    text-align: center;
+    padding-top: 5px;
+ 
+}
+.about-merge h3{
+        font-size: 1.4rem;
+}
+.about-merge p1{
+    font-size: 1.1rem;
+   margin-top: -10px;
+}
+.about-merge p2 {
+    
+    text-align: center;
+}
+#icon-close-about {
+    color: white;
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+    width: 35px; 
+    height: 35px;
+    background: rgb(83, 81, 81);
+    font-size: 2em; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%; 
+    cursor: pointer;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    #icon-close-about{
+        top: 5px;   
+        right: 5px;
+        width: 30px; 
+        height: 30px;
+        font-size: 1.5em; 
+    }
+}
+
+    #icon-close-about{
+        top: -10px; 
+        right: -10px;
+        width: 35px;
+        height: 35px;
+        font-size: 2em;
+    }
+    .merge-code{
+    display: none;
+    margin-top: 40px;
+    background-color: black;    
+    height: 85vh;
+    width:35vw;
+    max-width: 90%;
+    border: 5px solid white;
+    border-radius: 5px;
+    transition: max-height 0.5s ease-out;
+    overflow: hidden;
+    box-shadow: 0 0 30px black;
+    position: relative; 
+
+}
+.merge-code p1{
+    color: white;
+    padding-left: -10px;
+}
+.merge-code h1{
+    color: white;
+    font-size: 1rem;
+    padding-top: 15px;
+    text-align: center;
+    border-bottom: 2px solid white;
+}
+.merge-code #icon-close-code{
+    background: black;
+}
+#icon-close-code{
+    color: white;
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+    width: 35px; 
+    height: 35px;
+    background: black;
+    font-size: 2em; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%; 
+    cursor: pointer;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    #icon-close-code {
+        top: 5px;   
+        right: 5px;
+        width: 30px; 
+        height: 30px;
+        font-size: 1.5em; 
+    }
+}
+
+    #icon-close-code{
+        top: -10px; 
+        right: -10px;
+        width: 35px;
+        height: 35px;
+        font-size: 2em;
+    }
+</style>
+</html>

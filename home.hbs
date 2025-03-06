@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Visualizer</title>
+    <link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Algorithm Visualizer</h1>
+        <div class="search-container">
+            <div class="search-wrapper">
+                <span id="search-icon"><ion-icon name="search-circle-outline"></ion-icon></span>
+                <input type="text" id="search" placeholder="Search algorithms...">
+            </div>
+        </div>
+        <div id="menu-toggle" onclick="toggleSidebar()">
+            <ion-icon name="caret-down-circle-outline" id="menu-icon"></ion-icon>
+        </div>
+    </header>
+
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>Menu</h3>
+            <ion-icon name="caret-up-circle-outline" id="down-icon"></ion-icon>
+        </div>
+        <ul class="list-unstyled components">
+
+            <li>
+                <a href="#home" id="home"><ion-icon name="home-outline"></ion-icon> Home</a>
+            </li>
+            <li>
+                <a href="#favorites"><ion-icon name="heart-outline"></ion-icon> Favorites</a>
+            </li>
+            <li>
+                <a href="#settings"><ion-icon name="settings-outline"></ion-icon> Settings</a>
+            </li>
+            <li>
+                <a href="/login"><ion-icon name="log-out-outline"></ion-icon> Log Out</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="main">
+        <div class="greeting">
+               Hi, {{naming}}! Welcome to Algorithm Visualizer...
+        </div>
+
+        <div class="button-container">
+            <button class="toggle-button" onclick="toggleContent('about')">About</button>
+            <button class="toggle-button" onclick="toggleContent('algorithms')">Algorithms</button>
+        </div>
+
+        <div id="about" class="content">
+            <div class="about">
+                The Algorithm Visualizer helps you understand different algorithms by visualizing their process step by step. 
+                Whether you're working with sorting, searching, or data structures like linked lists, we have interactive tools 
+                to assist in your learning journey.
+                <br><br>
+                Our mission is to make learning algorithms easier, more accessible, and fun! By engaging with interactive 
+                visualizations, users of all skill levels can grasp complex concepts and see how algorithms work in real-time.
+            </div>
+        </div>
+
+        <div id="algorithms" class="content">
+            <div class="card-container">
+                <div class="card">
+                    <h2>Arrays</h2>
+                    <p>Complex algorithms start with simple arrays—visualize to conquer!</p>
+                    <span class="heart-icon" onclick="toggleFavorite(this)">&#10084;</span>
+                    <button href="" class="btn">Start Visualizing</button>
+                </div>
+
+                <div class="card">
+                    <h2>Linked List</h2>
+                    <p>Linked Lists: Where every node has a story and every link has a purpose.</p>
+                    <span class="heart-icon" onclick="toggleFavorite(this)">&#10084;</span>
+                    <button href="" class="btn btn1">Start Visualizing</button>
+                </div>
+                <div class="card">
+                    <h2>Linear Search</h2>
+                    <p>Linear search is a straightforward method—check each element until you find the target.</p>
+                    <span class="heart-icon" onclick="toggleFavorite(this)">&#10084;</span>
+                    <button href="" class="btn btn2">Start Visualizing</button>
+                </div>
+
+                <div class="card">
+                    <h2>Binary Search</h2>
+                    <p>Efficient search through sorted data with Binary Search.</p>
+                    <span class="heart-icon" onclick="toggleFavorite(this)">&#10084;</span>
+                    <button ahref="" class="btn btn3">Start Visualizing</button>
+                </div>
+
+                <div class="card">
+                    <h2>Merge Sort</h2>
+                    <p>Divide and conquer your way to sorted data with Merge Sort.</p>
+                    <span class="heart-icon" onclick="toggleFavorite(this)">&#10084;</span>
+                    <button href="" class="btn btn4">Start Visualizing</button>
+                </div>
+
+                <div class="card">
+                    <h2>Quick Sort</h2>
+                    <p>Quick Sort is a highly efficient sorting algorithm that uses a divide-and-conquer approach.</p>
+                    <span class="heart-icon" onclick="toggleFavorite(this)">&#10084;</span>
+                    <button href="" class="btn btn5">Start Visualizing</button>
+                </div>
+
+                <div class="card">
+                    <h2>Bubble Sort</h2>
+                    <p>Bubble Sort is a simple comparison-based sorting algorithm.</p>
+                    <span class="heart-icon" onclick="toggleFavorite(this)">&#10084;</span>
+                    <button href="" class="btn btn6">Start Visualizing</button>
+                </div>
+
+                <div class="card">
+                    <h2>Selection Sort</h2>
+                    <p>Selection Sort selects the minimum element and places it in the sorted position.</p>
+                    <span class="heart-icon" onclick="toggleFavorite(this)">&#10084;</span>
+                    <button href="" class="btn btn7">Start Visualizing</button>
+                </div>
+
+                <div class="card">
+                    <h2>Insertion Sort</h2>
+                    <p>Insertion Sort is simple but efficient for small datasets.</p>
+                    <span class="heart-icon" onclick="toggleFavorite(this)">&#10084;</span>
+                    <button href="" class="btn btn8">Start Visualizing</button>
+                </div>
+
+                <div class="card">
+                    <h2>Counting Sort</h2>
+                    <p>Counting Sort is an integer sorting algorithm with linear time complexity.</p>
+                    <span class="heart-icon" onclick="toggleFavorite(this)">&#10084;</span>
+                    <button a href="" class="btn btn9">Start Visualizing</button>
+                </div>
+
+                <div class="card">
+                    <h2>Radix Sort</h2>
+                    <p>Radix Sort processes each digit of numbers to sort them.</p>
+                    <span class="heart-icon" onclick="toggleFavorite(this)">&#10084;</span>
+                    <button href="" class="btn btn10">Start Visualizing</button>
+                </div>
+
+                <div class="card">
+                    <h2>Heap Sort</h2>
+                    <p>Heap Sort uses a binary heap to sort elements efficiently.</p>
+                    <span class="heart-icon" onclick="toggleFavorite(this)">&#10084;</span>
+                    <button href="" class="btn btn11">Start Visualizing</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Email: ujjwalvashu2004@gmail.com</p>
+        <p>Phone: 8604934157</p>
+        <p>&copy; 2024 Algorithm Visualizer. All rights reserved.</p>
+    </footer>
+
+    <script>
+
+function toggleContent(section) {
+            const aboutSection = document.getElementById('about');
+            const algorithmsSection = document.getElementById('algorithms');
+
+            if (section === 'about') {
+                aboutSection.classList.toggle('show');
+                algorithmsSection.classList.remove('show');
+            } else if (section === 'algorithms') {
+                algorithmsSection.classList.toggle('show');
+                aboutSection.classList.remove('show');
+            }
+        }
+
+        function toggleFavorite(heartIcon) {
+            heartIcon.classList.toggle('liked');
+        }
+
+        const btn =document.querySelector('.btn')
+        btn.addEventListener('click',()=>{
+          window.location.href='/array';
+        })
+        
+        const btn1 =document.querySelector('.btn1')
+        btn1.addEventListener('click',()=>{
+          window.location.href='/Linked-list';
+        })
+
+         const btn2 =document.querySelector('.btn2')
+        btn2.addEventListener('click',()=>{
+          window.location.href='/LinearSearch';
+        })
+
+         const btn3 =document.querySelector('.btn3')
+        btn3.addEventListener('click',()=>{
+          window.location.href='/BinarySearch';
+        })
+
+        
+         const btn4 =document.querySelector('.btn4')
+        btn4.addEventListener('click',()=>{
+          window.location.href='/MergeSort';
+        })
+
+        const btn6 =document.querySelector('.btn6')
+        btn6.addEventListener('click',()=>{
+          window.location.href='/BubbleSort';
+        })
+
+        
+        const btn7 =document.querySelector('.btn7')
+        btn7.addEventListener('click',()=>{
+          window.location.href='/SelectionSort';
+        })
+
+     const btn8 =document.querySelector('.btn8')
+        btn8.addEventListener('click',()=>{
+          window.location.href='/InsertionSort';
+        })
+        function searchAlgorithms() {
+            const searchInput = document.getElementById('search').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('h2').textContent.toLowerCase();
+                
+                if (title.includes(searchInput)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        document.querySelector('button').addEventListener('click', searchAlgorithms);
+        document.getElementById('search').addEventListener('input', searchAlgorithms);
+ 
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const menuIcon = document.getElementById("menu-icon");
+            const downicon=document.getElementById("down-icon")
+
+            sidebar.classList.toggle("active");
+
+            menuIcon.addEventListener('click',()=>{
+                sidebar.style.display='block';
+            })
+
+            downicon.addEventListener('click',()=>{
+                sidebar.style.display='none';
+            })
+            
+         }
+
+    
+
+    </script>
+
+</body>
+</html>
+<style>
+    
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+
+.btn{
+    width: 140px;
+    height: 45px;
+    background-color: #3498db;
+    color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #3498db;
+    color: white;
+    box-shadow: 0px 0px 30px #3498db;
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 90px;
+
+}
+
+header h1 {
+    font-size: 2rem;
+}
+
+ .search-container {
+    display: flex;
+    align-items: center;
+     gap: 10px;
+}
+
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#search-icon {
+    bottom: 2px;
+    position: absolute;
+    left: 10px; 
+    font-size: 1.5em; 
+    color: #888;
+}
+
+#search {
+    padding-left: 40px; 
+    font-size: 16px;
+    width: 300px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+   margin-right:40px;
+
+}
+header input[type="text"] {
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+}
+
+header button {
+    background-color: #FF414D;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+header button:hover {
+    background-color: #ff686d;
+}
+
+.main {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.greeting {
+    position: relative;
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 4px solid;
+    letter-spacing: 2px;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: #2c3e50; }
+}
+
+@media (max-width: 768px) { .greeting{
+        width: 35%;
+      
+}
+}
+.button-container {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.toggle-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-button:hover {
+    background-color: #2980b9;
+}
+
+.content {
+    display: none;
+    width: 100%;
+    max-width: 900px;
+    margin-top: 20px;
+}
+
+.content.show {
+    display: block;
+    animation: slideDown 0.8s forwards;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.about {
+    font-size: 1.2rem;
+    color: #34495e;
+    line-height: 1.6;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.card {
+    background-color: #2980b9;
+    border-radius: 10px;
+    padding: 20px;
+    color: white;
+    width: 100%;
+    max-width: 250px;
+    position: relative;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.card p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.heart-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.heart-icon.liked {
+    color: red;
+}
+
+footer {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+@media (max-width: 768px) {
+    header {
+        height: 40%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-container {
+        width: 80%;
+        justify-content: space-between;
+    }
+
+    .toggle-button {
+        padding: 10px 15px;
+    }
+
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+#sidebar {
+    transform: translateY(-110%);
+    transition: transform 0.4s ease-in-out;
+    /* display: none; */
+    position: fixed;
+    width: 100%;
+    height: 20%;
+    background-color: #2c3e50;
+    color: white;
+    padding-left: 90px;
+    /* transition: all 0.3s; */
+    margin-top: 15px;
+    border-radius: 48px;
+}
+
+#sidebar h3 {
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+#sidebar ul {
+    justify-content: space-between;
+    display: inline-flex;
+    /* padding-left:60px; */
+    list-style-type: none;
+    align-items: center;
+    text-align: center;
+}
+
+#sidebar ul li {
+    
+    padding: 15px;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+#sidebar ul li a {
+    justify-content: center;
+   padding-left: 30px;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#sidebar ul li:hover {
+    background-color: #3498db;
+    border-radius: 10px;
+}
+
+
+#sidebar.active {
+    /* top: 0;
+    display: block;
+    transition: all 0.8s; */
+    transform: translateY(0);
+    transition: transform 0.4s ease-in-out;
+
+
+}
+#home{
+    margin-left: 400px;
+}
+
+
+#menu-toggle {
+    position: absolute;
+    top: 48px;
+    right: 20px;
+    cursor: pointer;
+}
+
+#menu-toggle ion-icon {
+    font-size: 32px;
+    color: #2c3e50;
+}
+#down-icon{
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    font-size: 32px;
+    color: white;
+    cursor: pointer;
+}                                   
+@media (max-width: 768px) {
+    #sidebar {
+        height: 30%;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    #sidebar ul li a{
+      
+        margin-left: -40px;
+    }
+}
+@media (max-width: 500px) {
+    #sidebar {
+        height: 30%;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    #home{
+    margin-left: -150px;
+}
+
+   
+}
+</style>

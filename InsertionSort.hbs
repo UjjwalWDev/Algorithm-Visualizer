@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Visualization</title>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
+    <style>
+     body {
+ font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 0;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+header{
+    height: 60px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding-left: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+    background-color:#8befae;
+    border-bottom: 5px solid black;
+   
+}
+.logo{
+    justify-content: center;
+    font-size: 1.5rem;
+    color: black;
+    user-select: none;
+
+}
+.navigation a{
+    position: relative;
+    font-size: 1.1em;
+    color: black;
+    text-decoration: none;
+    font-weight: 500;
+    margin-right: 60px;
+    cursor: pointer;
+  
+}
+.navigation a::after{
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background:black;
+    border-radius: 5px;
+    left: 0;
+    transform: scaleX(0);
+    transition: transform .5s;
+    transform-origin: right;
+}
+.navigation a:hover::after{
+    transform-origin: left;
+    transform: scaleX(1);
+}
+#container {
+    background-color: #8befae;
+    border: 5px solid black;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+#visualization {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+}
+
+#array-container {
+    display: flex;
+    gap: 10px;
+}
+
+.box {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #fff;
+    background-color: #444;
+    font-size: 1.2rem;
+    color: #fff;
+    position: relative;
+}
+
+.box.highlight {
+    background-color: #f39c12;
+}
+
+.box.min {
+    background-color: #f1260f;
+}
+
+#index-label {
+    position: absolute;
+    top: -20px;
+    font-size: 0.8rem;
+}
+
+#info {
+    margin: 20px 0;
+}
+
+#controls button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: black;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#controls button:hover {
+    background-color: red;
+}
+.about-insertion{
+    font-family: Roboto,arial,sans-serif;
+    display: none;
+    height: 52vh;
+    width: 55vw;
+    max-width: 90%;
+    border: 5px solid black;
+    border-radius: 8px;
+    transition: max-height 0.5s ease-out;
+    overflow: hidden;
+    box-shadow: 0px 0px 30px  #8befae;
+    position: relative; 
+    text-align: center;
+    background-color: #8befae;
+    color: rgb(243, 14, 14);
+}
+
+.about-insertion h3,
+.about-insertion h2 {
+    color: black;
+    text-align: center;
+    padding-top: 5px;
+ 
+}
+.about-insertion h3{
+        font-size: 1.4rem;
+}
+.about-insertion p1{
+    font-size: 1.1rem;
+   margin-top: -10px;
+}
+.about-insertion p2,
+.about-insertion p3
+ {
+    
+    text-align: center;
+}
+#icon-close-about {
+    color: white;
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+    width: 35px; 
+    height: 35px;
+    background: black;
+    font-size: 2em; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%; 
+    cursor: pointer;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    #icon-close-about{
+        top: 5px;   
+        right: 5px;
+        width: 30px; 
+        height: 30px;
+        font-size: 1.5em; 
+    }
+}
+
+    #icon-close-about{
+        top: -10px; 
+        right: -10px;
+        width: 35px;
+        height: 35px;
+        font-size: 2em;
+    }
+    .insertion-code{
+        display: none;
+         margin-top: 40px;
+         background-color: black;    
+         height: 55vh;
+         width:35vw;
+         max-width: 90%;
+         border: 5px solid white;
+         border-radius: 5px;
+         transition: max-height 0.5s ease-out;
+         overflow: hidden;
+         box-shadow: 0 0 30px black;
+         position: relative; 
+     
+     }
+     .insertion-code p1{
+         color: white;
+         padding-left: -10px;
+     }
+     .insertion-code h1{
+         color: white;
+         font-size: 1rem;
+         padding-top: 15px;
+         text-align: center;
+         border-bottom: 2px solid white;
+     }
+     .insertion-code #icon-close-code{
+         background: black;
+     }
+     #icon-close-code{
+         color: white;
+         position: absolute;
+         top: 10px; 
+         right: 10px; 
+         width: 35px; 
+         height: 35px;
+         background: black;
+         font-size: 2em; 
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         border-radius: 50%; 
+         cursor: pointer;
+         z-index: 1;
+     }
+     
+     @media (max-width: 768px) {
+         #icon-close-code {
+             top: 5px;   
+             right: 5px;
+             width: 30px; 
+             height: 30px;
+             font-size: 1.5em; 
+         }
+     }
+     
+         #icon-close-code{
+             top: -10px; 
+             right: -10px;
+             width: 35px;
+             height: 35px;
+             font-size: 2em;
+         }
+         </style>
+</head>
+<body action="/InsertionSort" method="post">
+    <header>
+        <h2 class="logo">Algorithm Visualizer</h2>
+        <nav class="navigation">
+            <a id="insertion-btn">About InsertionSort</a>
+            <a id="code">Code</a>
+        </nav>
+    </header>
+    <div id="container">
+        <h1>Insertion Sort Visualization</h1>
+        <div id="visualization">
+            <div id="array-container"></div>
+        </div>
+        <div id="info">
+            <p id="instructions">Click "Start Visualizing" to begin the insertion sort process.</p>
+            <p>Comparisons: <span id="comparisons">0</span></p>
+            <p>Swaps: <span id="swaps">0</span></p>
+            <p>Time Complexity: O(n²)</p>
+            <p>Space Complexity: O(1)</p>
+        </div>
+
+        <div id="controls">
+            <button id="input-array">Input Array</button>
+            <button id="start-visualizing">Start Sorting</button>
+        </div>
+    </div>
+    <div class="about-insertion">
+        <span id="icon-close-about"><ion-icon name="close-circle-outline"></ion-icon></span>
+        <h3>Basic Information of Insertion Sort</h3>
+        <p1>Insertion sort works by iterating through the array and inserting each element into its correct position relative to the already sorted portion.</p1>
+        <h2>Steps:</h2>
+        <p2>1. Start from the second element of the array.<br><br>
+           2. Compare it with the element before it.<br><br>
+           3. Shift elements greater than the current element to the right.<br><br>
+           4. Insert the current element into its correct position.
+        </p2>                
+    </div>
+
+    <div class="insertion-code">
+        <span id="icon-close-code"><ion-icon name="close-circle-outline"></ion-icon></span>
+        <h1>Algorithm of Insertion Sort:</h1>
+        <p1><pre><code>
+    InsertionSort(A):
+        for i = 1 to length of A - 1 do:
+            currentElement = A[i]
+            j = i - 1
+            while j >= 0 and A[j] > currentElement do:
+             A[j + 1] = A[j] // Shift element to the right
+             j = j - 1
+            A[j + 1] = currentElement // Insert element in
+             its correct position
+        </code></pre></p1>
+    </div>
+
+    <script>
+        const arrayContainer = document.getElementById("array-container");
+        const instructions = document.getElementById("instructions");
+        const comparisonsText = document.getElementById("comparisons");
+        const swapsText = document.getElementById("swaps");
+
+        let array = [34, 12, 45, 23, 5, 29]; 
+        let comparisons = 0;
+        let swaps = 0;
+
+        function renderArray(highlightIndex = -1) {
+            arrayContainer.innerHTML = ""; 
+            array.forEach((value, index) => {
+                const box = document.createElement("div");
+                box.classList.add("box");
+                box.innerHTML = `<div>${value}</div>`;
+                if (index === highlightIndex) box.classList.add("highlight");
+
+                const indexLabel = document.createElement("div");
+                indexLabel.id = "index-label";
+                indexLabel.innerText = index;
+                box.appendChild(indexLabel);
+
+                arrayContainer.appendChild(box);
+            });
+        }
+
+        document.getElementById("input-array").addEventListener("click", () => {
+            const input = prompt("Enter 6 array elements separated by commas:");
+            if (input) {
+                array = input.split(",").map(Number);
+                comparisons = 0;
+                swaps = 0;
+                updateStats();
+                renderArray();
+                instructions.textContent = "Array updated! Click 'Start Visualizing' to begin.";
+            }
+        });
+
+        document.getElementById("start-visualizing").addEventListener("click", async () => {
+            instructions.textContent = "Visualization in progress...";
+            await insertionSortVisualization();
+            instructions.textContent = "Sorting complete! The array is now sorted.";
+        });
+
+        function updateStats() {
+            comparisonsText.textContent = comparisons;
+            swapsText.textContent = swaps;
+        }
+
+        async function insertionSortVisualization() {
+            for (let i = 1; i < array.length; i++) {
+                let currentElement = array[i];
+                let j = i - 1;
+                renderArray(i);
+
+                instructions.textContent = `Step ${i}: Insert ${currentElement} into the sorted portion of the array.`;
+                await sleep(1000);
+
+                while (j >= 0 && array[j] > currentElement) {
+                    comparisons++;
+                    updateStats();
+                    renderArray(j);
+                    instructions.textContent = `Comparing array[${j}] (${array[j]}) with ${currentElement}.`;
+                    await sleep(1000);
+
+                    array[j + 1] = array[j];  // Shift element to the right
+                    j--;
+                    swaps++;
+                    updateStats();
+                    renderArray(j + 1);
+                    instructions.textContent = `Shifting array[${j + 1}] (${array[j + 1]}) to the right.`;
+                    await sleep(1000);
+                }
+                array[j + 1] = currentElement;  // Insert element in its correct position
+                renderArray(j + 1);
+                instructions.textContent = `Inserting ${currentElement} at position ${j + 1}.`;
+                await sleep(1000);
+            }
+            renderArray(); 
+        }
+
+        function sleep(ms) {
+            return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+
+        renderArray();
+        const insertionBtn = document.getElementById('insertion-btn');
+        const abtInsertion = document.querySelector('.about-insertion');
+        const container = document.getElementById('container');
+        const closeAbt = document.getElementById('icon-close-about');
+        const code = document.getElementById('code');
+        const insertionCode = document.querySelector('.insertion-code');
+        const closeCode = document.getElementById('icon-close-code');
+
+        insertionBtn.addEventListener('click', () => {
+            abtInsertion.style.display = 'block';
+            container.style.display = 'none';
+        });
+
+        closeAbt.addEventListener('click', () => {
+            abtInsertion.style.display = 'none';
+            container.style.display = 'block';
+        });
+
+        code.addEventListener('click', () => {
+            insertionCode.style.display = 'block';
+            container.style.display = 'none';
+            abtInsertion.style.display = 'none';
+        });
+
+        closeCode.addEventListener('click', () => {
+            insertionCode.style.display = 'none';
+            container.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

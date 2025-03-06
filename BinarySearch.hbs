@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Visualization</title>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
+</head>
+<body action="/BinarySearch" method="post">
+    <header>
+        <h2 class="logo">Algorithm Visualizer</h2>
+        <nav class="navigation">
+            <a id="Binary-btn">About BinarySearch</a>
+            <a  id="code">Code</a>
+        </nav>
+    </header>
+  <div class="container">
+    <h1>Binary Search Visualization</h1>
+
+
+    <div id="arrayContainer">
+      <div id="elementContainer"></div>
+    </div>
+
+    <p id="instructions">Note:Here,Low value=yellow, Mid value=orange ,High value=red.</p>
+    
+    <button id="inputBtn">Give Input</button>
+    <button id="startBtn">Start Searching</button>
+</div>
+<div class="about-binary">
+    <span id="icon-close-about"><ion-icon name="close-circle-outline"></ion-icon></span>
+        <h3>Basic Information of Binary Search</h3>
+        <p1>Binary search is a search algorithm that finds the position of a target value within a sorted array. It efficiently narrows down the search range by repeatedly dividing the search space in half, resulting in a time complexity of O(log⁡n)O(logn).</p1>
+
+        <h2>Time Complexity::</h2>
+        <p2> O(log⁡n)O(logn).</p2><br>
+        <h3>Space Complexity:</h3>
+        <p3>  1.Iterative Implementation: O(1)O(1) — constant space is used as it requires only a few variables to keep track of indices.<br>
+         <br>2.Recursive Implementation: O(log⁡n)O(logn) — additional space is used for the call stack.</p3>
+    </div>
+
+    <div class="binary-code">
+        <span id="icon-close-code" ><ion-icon name="close-circle-outline"></ion-icon></span>
+       <h1>Algorithm of Binary Search:</h1>
+   <p1><pre><code>
+
+
+function binarySearch(array, target):
+    low = 0
+    high = length(array) - 1
+
+    while low ≤ high:
+        mid = low + (high - low) / 2
+
+        if array[mid] == target:
+            return mid                   // Target found, return index
+        else if array[mid] < target:
+            low = mid + 1                // Target is in the right half
+        else:
+            high = mid - 1               // Target is in the left half
+
+    return -1                           // Target not found
+
+   </code></pre></p1>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    let array = [1, 2, 3, 4, 5, 6, 7, 8]; 
+    let target = 5;
+    let low, high, mid;
+    let isSearching = false;
+    let intervalId;
+
+    const elementContainer = document.getElementById("elementContainer");
+    const instructions = document.getElementById("instructions");
+    const startBtn = document.getElementById("startBtn");
+    const inputBtn = document.getElementById("inputBtn");
+
+    
+    function displayArray() {
+        elementContainer.innerHTML = ''; 
+        array.forEach((num, index) => {
+            const elementDiv = document.createElement("div");
+            elementDiv.classList.add("element");
+            elementDiv.textContent = num;
+            elementDiv.setAttribute("data-index", index);
+            elementContainer.appendChild(elementDiv);
+        });
+    }
+
+  
+    function highlightElements(low, mid, high) {
+        const elements = document.querySelectorAll(".element");
+        elements.forEach((element) => {
+            element.style.backgroundColor = "lightblue"; 
+        });
+
+        elements[low].style.backgroundColor = "yellow"; 
+        elements[mid].style.backgroundColor = "orange"; 
+        elements[high].style.backgroundColor = "red";   
+    }
+
+   
+    function getUserInput() {
+        const arrayInput = prompt("Enter array elements (comma-separated):");
+        if (arrayInput) {
+            array = arrayInput.split(',').map(num => parseInt(num.trim())).filter(num => !isNaN(num));
+        }
+        target = parseInt(prompt("Enter target element:"));
+
+        
+        if (array.length === 0 || isNaN(target)) {
+            array = [1, 2, 3, 4, 5, 6, 7, 8];
+            target = 5;
+        }
+        array.sort((a, b) => a - b);
+        displayArray(); 
+    }
+
+   
+    function startVisualization() {
+        if (isSearching) return;
+
+        low = 0;
+        high = array.length - 1;
+        isSearching = true;
+        instructions.textContent = `Searching for target: ${target}
+                 `;
+
+        intervalId = setInterval(() => {
+            if (low <= high) {
+                mid = Math.floor((low + high) / 2);
+                highlightElements(low, mid, high); 
+
+                instructions.textContent = `Checking middle element at index ${mid}: ${array[mid]}`;
+                
+                if (array[mid] === target) {
+                    instructions.textContent = `Target found at index ${mid}!`;
+                    clearInterval(intervalId);
+                    isSearching = false;
+                    return;
+                } else if (array[mid] < target) {
+                    instructions.textContent = `Element ${array[mid]} is less than ${target}. Moving right.`;
+                    low = mid + 1;
+                } else {
+                    instructions.textContent = `Element ${array[mid]} is greater than ${target}. Moving left.`;
+                    high = mid - 1;
+                }
+            } else {
+                instructions.textContent = `Target not found in the array.`;
+                clearInterval(intervalId);
+                isSearching = false;
+            }
+        }, 3000);
+    }
+
+    inputBtn.addEventListener("click", () => {
+        getUserInput(); 
+    });
+    startBtn.addEventListener("click", () => {
+        displayArray(); 
+        startVisualization(); 
+    });
+    
+    displayArray(); 
+});
+const binarybtn=document.getElementById('Binary-btn');
+const abtbinary=document.querySelector('.about-binary');
+const container =document.querySelector('.container');
+const closeabt=document.getElementById('icon-close-about');
+const code=document.getElementById('code');
+const binarycode=document.querySelector('.binary-code')
+const closecode=document.getElementById('icon-close-code')
+
+binarybtn.addEventListener('click',()=>{
+    abtbinary.style.display='block';
+    container.style.display='none';
+})
+
+closeabt.addEventListener('click',()=>{
+    abtbinary.style.display='none';
+    container.style.display='block';
+})
+
+code.addEventListener('click',()=>{
+    binarycode.style.display='block';
+    container.style.display='none';
+    abtbinary.style.display='none';
+})
+
+closecode.addEventListener('click',()=>{
+    binarycode.style.display='none';
+    container.style.display='block';
+})
+    </script>
+</body>
+</html>
+<style>
+    body {
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.container {
+    width: 600px;
+    height: 380px;
+    /* display: none; */
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    border: 5px solid black;
+    border-radius: 14px;
+    color:black;
+    background-color: #3498db;
+    position: absolute;
+    
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+}
+
+input {
+    padding: 5px;
+    font-size: 16px;
+}
+
+#arrayContainer {
+    
+    padding: 10px;
+    display: inline-block;
+    margin-bottom: 30px;
+
+}
+
+#elementContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.element {
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+    background-color: lightblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    position: relative;
+}
+
+.element::after {
+    content: attr(data-index);
+    position: absolute;
+    bottom: -20px;
+    font-size: 16px;
+    color: black;
+}
+
+button {
+    margin: 30px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    border: 4px solid white;
+    border-radius: 29px;
+    background-color: #3498db;
+    
+
+}
+
+button:hover{
+    border: 4px solid black;
+    color: white;
+}
+
+#instructions{
+    color: white;
+    font-size: 1.1rem;
+}
+
+header{
+    height: 60px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding-left: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+    background-color:#3498db;
+   
+}
+.logo{
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    user-select: none;
+
+}
+.navigation a{
+    position: relative;
+    font-size: 1.1em;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    margin-right: 60px;
+    cursor: pointer;
+  
+}
+.navigation a::after{
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background:white;
+    border-radius: 5px;
+    left: 0;
+    transform: scaleX(0);
+    transition: transform .5s;
+    transform-origin: right;
+}
+.navigation a:hover::after{
+    transform-origin: left;
+    transform: scaleX(1);
+}
+.about-binary{
+    font-family: Roboto,arial,sans-serif;
+    display: none;
+    height: 52vh;
+    width: 55vw;
+    max-width: 90%;
+    border: 5px solid black;
+    border-radius: 8px;
+    transition: max-height 0.5s ease-out;
+    overflow: hidden;
+    box-shadow: 0px 0px 30px  #3498db;
+    position: relative; 
+    text-align: center;
+    background-color: #3498db;
+    color: white;
+}
+
+.about-binary h3,
+.about-binary h2 {
+    color: black;
+    text-align: center;
+    padding-top: 5px;
+ 
+}
+.about-binary h3{
+        font-size: 1.4rem;
+}
+.about-binary p1{
+    font-size: 1.1rem;
+   margin-top: -10px;
+}
+.about-binary p2,
+.about-binary p3
+ {
+    
+    text-align: center;
+}
+#icon-close-about {
+    color: white;
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+    width: 35px; 
+    height: 35px;
+    background: black;
+    font-size: 2em; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%; 
+    cursor: pointer;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    #icon-close-about{
+        top: 5px;   
+        right: 5px;
+        width: 30px; 
+        height: 30px;
+        font-size: 1.5em; 
+    }
+}
+
+    #icon-close-about{
+        top: -10px; 
+        right: -10px;
+        width: 35px;
+        height: 35px;
+        font-size: 2em;
+    }
+    .binary-code{
+        display: none;
+         margin-top: 40px;
+         background-color: black;    
+         height: 55vh;
+         width:35vw;
+         max-width: 90%;
+         border: 5px solid white;
+         border-radius: 5px;
+         transition: max-height 0.5s ease-out;
+         overflow: hidden;
+         box-shadow: 0 0 30px black;
+         position: relative; 
+     
+     }
+     .binary-code p1{
+         color: white;
+         padding-left: -10px;
+     }
+     .binary-code h1{
+         color: white;
+         font-size: 1rem;
+         padding-top: 15px;
+         text-align: center;
+         border-bottom: 2px solid white;
+     }
+     .binary-code #icon-close-code{
+         background: black;
+     }
+     #icon-close-code{
+         color: white;
+         position: absolute;
+         top: 10px; 
+         right: 10px; 
+         width: 35px; 
+         height: 35px;
+         background: black;
+         font-size: 2em; 
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         border-radius: 50%; 
+         cursor: pointer;
+         z-index: 1;
+     }
+     
+     @media (max-width: 768px) {
+         #icon-close-code {
+             top: 5px;   
+             right: 5px;
+             width: 30px; 
+             height: 30px;
+             font-size: 1.5em; 
+         }
+     }
+     
+         #icon-close-code{
+             top: -10px; 
+             right: -10px;
+             width: 35px;
+             height: 35px;
+             font-size: 2em;
+         }
+</style>

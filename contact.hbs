@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Visualizer</title>
+    <link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
+    <script src="contact.js"></script>
+</head>
+<body>
+    <form action="/contact" method="post">
+     <h1 class="logo">Algorithm Visualizer</h1>
+     <p1 class="p1">"I’m here to help! If you have any questions or just want to connect, please feel free to reach out."</p1>
+   
+     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+     <div class="contacts">
+        <h1 class="head">Contacts</h1>
+        <span id="closePopup"><ion-icon name="close-circle-outline"></ion-icon></span>
+        <span id="call"><ion-icon name="call-outline"></ion-icon><p>8604934157</p></span>
+        
+        <span id="mail"><ion-icon name="mail-open-outline"></ion-icon><p>ujjwalvashu2004@gmail.com</p></span>
+        
+     </div>
+     </form>
+</body>
+</html>
+<style>
+    *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+ 
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('bg.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.contacts{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    margin-left: 30vw;
+    height:190px;
+    width:300px;
+    /* display:none; */
+    margin-top: 60px;
+    flex-direction: column;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius:20px ;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0,0,0,.5);
+    overflow: hidden;
+    transition:transform .5 ease,height .2s ease;
+   font-size: 1.2rem;
+    box-shadow: 0 0 30px white;
+    align-items: center;
+    text-align: center;
+}
+p{
+    display: flex;
+    /* padding-bottom: 4px; */
+    padding-left: 15px;
+    padding-bottom: 10px;
+   color: white;
+   text-decoration: none;
+}
+span{
+    display: flex;
+    /* padding-top:30px; */
+    margin-top: 5px;
+    margin-right: 0px;
+}
+#closePopup{
+    position: absolute;
+    top: 1;
+    right: 0;
+    width: 50px;
+    height: 45px;
+    background: red;
+    font-size: 2.5em;
+    display: flex;
+    justify-content: center;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+    z-index:1;
+    border-top-right-radius: 10px;
+    margin-bottom: 150px;
+}
+.logo{
+    font-size: 2rem;
+    color: white;
+    user-select: none;
+    text-align: center;
+    margin-top: -30vh;
+}
+.p1{
+    display: flex;
+    font-size: 2rem;
+    color: white;
+    user-select: none;
+    text-align: center;
+  margin-top: 20vh;
+  border-bottom: 5px solid red;
+}
+.head{
+    display: flex;
+    color: red;
+    text-align: center;
+    margin-top: -45px;
+    margin-bottom: 32px;
+    font-size: 1.4rem;
+
+}
+</style>

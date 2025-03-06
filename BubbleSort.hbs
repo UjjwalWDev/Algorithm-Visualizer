@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Visualization</title>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
+</head>
+<body action="/BubbleSort" method="post">
+    <header>
+        <h2 class="logo">Algorithm Visualizer</h2>
+        <nav class="navigation">
+            <a id="Bubble-btn">About BubbleSort</a>
+            <a  id="code">Code</a>
+        </nav>
+    </header>
+
+<div id="visualization-container">
+    <h1>Bubble Sort Visualization</h1>
+    
+    <div id="array-container">
+    </div>
+    
+    <div id="info">
+        <p id="instruction-text">Click "Start Sorting" to begin...</p>
+        <p>Total Comparisons: <span id="comparisons">0</span></p>
+        <p>Time Complexity: O(n²)</p>
+        <p>Space Complexity: O(1)</p>
+    </div>
+    
+    <div id="buttons">
+        <button id="input-btn"> Give input </button>
+        <button id="start-btn">Start Sorting</button>
+    </div>
+</div>
+<div class="about-Bubble">
+    <span id="icon-close-about"><ion-icon name="close-circle-outline"></ion-icon></span>
+        <h3>Basic Information of Bubble Sort</h3>
+        <p1>Bubble Sort is one of the simplest sorting algorithms. It works by repeatedly stepping through the list of elements to be sorted, comparing adjacent items, and swapping them if they are in the wrong order. The algorithm gets its name because larger elements "bubble up" to the top of the list with each pass, while smaller elements settle at the beginning.</p1>
+
+        <h2>How Bubble Sort Works:</h2>
+        <p2>1.Initialization:Start at the beginning of the list.
+            <br>
+        <br>
+        2.Comparisons and Swaps:
+        <br>
+                -Compare the first two elements. If the first is greater than the second, swap them.<br>
+                -Move to the next pair of elements, compare, and swap if needed.<br>
+                -Continue this process until reaching the end of the list. This completes one "pass."
+        <br><br>
+        3.Repeating Passes:
+        <br>
+        -After each pass, the largest element in the remaining unsorted part will be at its correct position at the end.<br>
+        -Repeat the process for the remaining unsorted part of the list until no swaps are needed during a pass (indicating the list is fully sorted).
+
+        </p2>
+    </div>
+
+    <div class="Bubble-code">
+        <span id="icon-close-code" ><ion-icon name="close-circle-outline"></ion-icon></span>
+       <h1>Algorithm of Bubble Sort:</h1>
+   <p1><pre><code>
+    function bubbleSort(arr) {
+        let n = arr.length;
+        for (let i = 0; i < n - 1; i++) {
+            let swapped = false;
+            for (let j = 0; j < n - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    // Swap
+                    [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                    swapped = true;
+                }
+            }
+            // If no elements were swapped, break early
+            if (!swapped) break;
+        }
+        return arr;
+    }
+    
+   </code></pre></p1>
+</div>
+
+<script>
+
+let array = [3, 8, 5, 2, 9, 1];
+let comparisons = 0;
+const arrayContainer = document.getElementById("array-container");
+const comparisonsDisplay = document.getElementById("comparisons");
+const instructionText = document.getElementById("instruction-text");
+
+
+function displayArray() {
+    arrayContainer.innerHTML = '';
+    array.forEach((value, index) => {
+        const element = document.createElement("div");
+        element.classList.add("array-element");
+        element.textContent = value;
+        arrayContainer.appendChild(element);
+    });
+}
+
+
+async function bubbleSort() {
+    comparisons = 0;
+    for (let i = 0; i < array.length - 1; i++) {
+        for (let j = 0; j < array.length - i - 1; j++) {
+            updateInstruction(`Comparing ${array[j]} and ${array[j + 1]}`);
+            highlightElements(j, j + 1);
+
+        
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            if (array[j] > array[j + 1]) {
+                [array[j], array[j + 1]] = [array[j + 1], array[j]];
+                updateInstruction(`Swapped ${array[j + 1]} and ${array[j]}`);
+                displayArray();
+            }
+            comparisons++;
+            comparisonsDisplay.textContent = comparisons;
+
+            await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+    }
+    updateInstruction("Array sorted!");
+}
+
+
+function updateInstruction(text) {
+    instructionText.textContent = text;
+}
+
+function highlightElements(index1, index2) {
+    const elements = document.querySelectorAll(".array-element");
+    elements.forEach((el, i) => {
+        el.style.backgroundColor = "#3b3b3b"; 
+        if (i === index1 || i === index2) {
+            el.style.backgroundColor = "#ff6347";
+        }
+    });
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    displayArray();
+});
+
+
+document.getElementById("start-btn").addEventListener("click", bubbleSort);
+document.getElementById("input-btn").addEventListener("click", () => {
+    const input = prompt("Enter numbers separated by commas:", array.join(","));
+    if (input) {
+        array = input.split(",").map(Number);
+        displayArray();
+        updateInstruction("Press 'Start Sort' to visualize.");
+        comparisonsDisplay.textContent = "0";
+    }
+});
+
+const Bubblebtn = document.getElementById('Bubble-btn')
+const abtBubble=document.querySelector('.about-Bubble')
+const otherContent = document.getElementById('visualization-container');
+const closeButton = document.getElementById('icon-close-about');
+const Bubblecode=document.querySelector('.Bubble-code')
+const codebtn=document.getElementById('code')
+const codeCloseButton = document.getElementById('icon-close-code');
+
+Bubblebtn.addEventListener('click', () => {
+        abtBubble.style.display = 'block'; 
+        otherContent.style.display = 'none';  
+    });
+
+    closeButton.addEventListener('click', () => {
+        abtBubble.style.display = 'none';  
+        otherContent.style.display = 'block';   
+    });
+     
+    codebtn.addEventListener('click', () => {
+        Bubblecode.style.display = 'block'; 
+        otherContent.style.display = 'none';  
+    });
+
+
+    codeCloseButton.addEventListener('click', () => {
+        Bubblecode.style.display = 'none';  
+        otherContent.style.display = 'block';   
+    });
+
+
+</script>
+</body>
+</html>
+<style>
+
+    body {
+     font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: black;
+    color: #ffffff;
+    margin: 0;
+}
+
+
+header{
+    height: 60px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding-left: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+    background-color:#1e1e1e;
+   
+}
+
+.logo{
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    user-select: none;
+
+}
+
+.navigation a{
+    position: relative;
+    font-size: 1.1em;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 40px;
+    cursor: pointer;
+  
+}
+
+#code{
+    margin-right: 70px;
+}
+
+.navigation a::after{
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background:red;
+    border-radius: 5px;
+    left: 0;
+    transform: scaleX(0);
+    transition: transform .5s;
+    transform-origin: right;
+}
+.navigation a:hover::after{
+    transform-origin: left;
+    transform: scaleX(1);
+}
+#visualization-container {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border: 5px solid red;
+    border-radius: 10px ;
+    text-align: center;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    width: 400px;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+#array-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.array-element {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #ffffff;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+#info p {
+    margin: 5px 0;
+}
+
+#buttons {
+    margin-top: 20px;
+}
+
+button {
+    background-color: #3b3b3b;
+    color: #ffffff;
+    border: 2px solid white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: #5a5a5a;
+}
+
+
+.about-Bubble{
+    font-family: Roboto,arial,sans-serif;
+    display: none;
+    background-color: #1e1e1e;    
+    height: 57vh;
+    width: 55vw;
+    max-width: 90%;
+    border: 5px solid red;
+    border-radius: 8px;
+    transition: max-height 0.5s ease-out;
+    overflow: hidden;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    position: relative; 
+    text-align: center;
+}
+
+.about-Bubble h3,
+.about-Bubble h2 {
+    color: red;
+    text-align: center;
+    padding-top: 5px;
+ 
+}
+.about-Bubble h3{
+        font-size: 1.4rem;
+}
+.about-Bubble p1{
+    font-size: 1.1rem;
+   margin-top: -10px;
+}
+.about-Bubble p2 {
+    
+    text-align: center;
+}
+#icon-close-about {
+    color: #1e1e1e;
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+    width: 35px; 
+    height: 35px;
+    background: red;
+    font-size: 2em; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%; 
+    cursor: pointer;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    #icon-close-about{
+        top: 5px;   
+        right: 5px;
+        width: 30px; 
+        height: 30px;
+        font-size: 1.5em; 
+    }
+}
+
+    #icon-close-about{
+        top: -10px; 
+        right: -10px;
+        width: 35px;
+        height: 35px;
+        font-size: 2em;
+    }
+
+    
+    .Bubble-code{
+        display: none;
+         margin-top: 40px;
+         background-color: #1e1e1e;    
+         height: 45vh;
+         width:35vw;
+         max-width: 90%;
+         border: 5px solid red;
+         border-radius: 5px;
+         transition: max-height 0.5s ease-out;
+         overflow: hidden;
+         box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+         position: relative; 
+         overflow-y: auto;
+         scrollbar-width: none;
+        
+     
+     }
+     .Bubble-code p1{
+         color: white;
+         padding-left: -10px;
+     }
+     .Bubble-code h1{
+         color: white;
+         font-size: 1rem;
+         padding-top: 15px;
+         text-align: center;
+         border-bottom: 4px solid red;
+     }
+     .Bubble-code #icon-close-code{
+         background: black;
+     }
+     #icon-close-code{
+         color: red;
+         position: absolute;
+         top: 10px; 
+         right: 10px; 
+         width: 35px; 
+         height: 35px;
+         font-size: 2em; 
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         border-radius: 50%; 
+         cursor: pointer;
+         z-index: 1;
+     }
+     
+     @media (max-width: 768px) {
+         #icon-close-code {
+             top: 5px;   
+             right: 5px;
+             width: 30px; 
+             height: 30px;
+             font-size: 1.5em; 
+         }
+     }
+     
+         #icon-close-code{
+             top: -10px; 
+             right: -10px;
+             width: 35px;
+             height: 35px;
+             font-size: 2em;
+         }
+</style>
